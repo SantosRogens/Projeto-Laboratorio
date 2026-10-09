@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Laboratório de ML Supervisionado</title>
+<style>
+  :root { --fundo: #f4f5f8; --cartao: #fff; --texto: #1d2330; --suave: #5b6475; --borda: #e1e4ea; --cor: #3b5bdb; --ruim: #c92a2a; --bom: #2b8a3e; }
+  @media (prefers-color-scheme: dark) {
+    :root { --fundo: #12151c; --cartao: #1b1f29; --texto: #e6e9ef; --suave: #9aa3b5; --borda: #2c3240; --cor: #748ffc; --ruim: #ff8787; --bom: #69db7c; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, sans-serif; background: var(--fundo); color: var(--texto); }
+  header { background: #1d2330; color: #fff; padding: 28px 16px; }
+  header h1 { margin: 0 0 6px; font-size: 1.7rem; }
+  header p { margin: 0; opacity: .8; }
+  main { max-width: 1100px; margin: 0 auto; padding: 20px 16px; }
+  nav button { border: 1px solid var(--borda); background: var(--cartao); color: var(--texto); padding: 9px 16px; border-radius: 99px; font: inherit; font-weight: 600; cursor: pointer; margin: 0 6px 16px 0; }
+  nav button.ativo { background: var(--cor); border-color: var(--cor); color: #fff; }
+  .grade { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
+  @media (max-width: 800px) { .grade { grid-template-columns: 1fr; } }
+  section { background: var(--cartao); border: 1px solid var(--borda); border-radius: 12px; padding: 18px; margin-bottom: 18px; }
+  h2 { margin: 0 0 14px; font-size: 1.05rem; }
+  form { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  label { font-size: .85rem; font-weight: 600; }
+  input, select { width: 100%; margin-top: 4px; padding: 8px; border: 1px solid var(--borda); border-radius: 8px; background: var(--fundo); color: var(--texto); font: inherit; }
+  form button { grid-column: 1 / -1; background: var(--cor); color: #fff; border: 0; border-radius: 8px; padding: 11px; font: inherit; font-weight: 600; cursor: pointer; }
+  .valor { font-size: 2.2rem; font-weight: 700; margin: 4px 0; }
+  .barra { height: 10px; background: var(--borda); border-radius: 99px; overflow: hidden; }
+  .barra span { display: block; height: 100%; background: var(--cor); }
+  .suave { color: var(--suave); font-size: .85rem; }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+  td { padding: 7px 4px; border-bottom: 1px solid var(--borda); }
+  td:last-child { text-align: right; }
+  .escolhido { font-weight: 700; color: var(--cor); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Laboratório de Aprendizado Supervisionado</h1>
+  <p>Modelos treinados com scikit-learn e servidos por uma API Flask.</p>
+</header>
+<main>
+  <nav id="abas"></nav>
+  <div class="grade">
+    <section>
+      <h2>Dados de entrada</h2>
+      <form id="formulario"></form>
+    </section>
+    <div>
+      <section><h2>Previsão</h2><div id="resultado" class="suave">Preencha os dados e clique em Prever.</div></section>
+      <section><h2>Avaliação do modelo</h2><div id="metricas"></div></section>
+    </div>
+  </div>
+</main>
+<script>
+let problemas = {}, atual = null;
+const fmt = (v, casas = 3) => v.toLocaleString("pt-BR", { maximumFractionDigits: casas });
+const real = (v) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 });
+const pct = (v) => fmt(v * 100, 1) + "%";
+
+async function iniciar() {
+  problemas = await (await fetch("/api/problemas")).json();
+  const abas = document.getElementById("abas");
+  for (const nome in problemas) {
+    const botao = document.createElement("button");
+    botao.textContent = problemas[nome].titulo;
+    botao.onclick = () => selecionar(nome);
+    abas.appendChild(botao);
+  }
+  selecionar(Object.keys(problemas)[0]);
+}
+
+function selecionar(nome) {
+  atual = nome;
+  const p = problemas[nome];
+  document.querySelectorAll("nav button").forEach((b) => b.classList.toggle("ativo", b.textContent === p.titulo));
+  let html = "";
+  for (const [campo, r] of Object.entries(p.features)) {
+    const entrada = r.tipo === "categoria"
+      ? `<select name="${campo}">${r.opcoes.map((o) => `<option>${o}</option>`).join("")}</select>`
+      : `<input name="${campo}" type="number" step="any" min="${r.min}" max="${r.max}" value="${r.padrao}">`;
+    html += `<label>${campo.replaceAll("_", " ")}${entrada}</label>`;
+  }
+  const formulario = document.getElementById("formulario");
+  formulario.innerHTML = html + "<button>Prever</button>";
+  formulario.onsubmit = prever;
+  document.getElementById("resultado").innerHTML = "Preencha os dados e clique em Prever.";
+  mostrarMetricas(p);
+}
+
+async function prever(evento) {
+  evento.preventDefault();
+  const dados = Object.fromEntries(new FormData(evento.target));
+  const resposta = await fetch(`/api/prever/${atual}`, {
+    method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(dados),
+  });
+  const r = await resposta.json();
+  const p = problemas[atual];
+  let html = `<div class="suave">${p.resultado}</div>`;
+  if (!resposta.ok) html = `<p style="color: var(--ruim)">${r.erro}</p>`;
+  else if (r.valor !== undefined) html += `<div class="valor">${real(r.valor)}</div>`;
+  else {
+    const cor = r.probabilidade >= 0.5 ? "var(--ruim)" : "var(--bom)";
+    html += `<div class="valor" style="color:${cor}">${pct(r.probabilidade)}</div>
+             <div class="barra"><span style="width:${r.probabilidade * 100}%"></span></div>`;
+  }
+  document.getElementById("resultado").innerHTML = html;
+}
+
+function mostrarMetricas(p) {
+  const m = p.metricas, regressao = p.tipo === "regressao";
+  let html = `<p class="suave">Validação cruzada (5 folds) — ${m.metrica}, ${regressao ? "menor" : "maior"} é melhor</p><table>`;
+  for (const [algoritmo, r] of Object.entries(m.validacao_cruzada)) {
+    const valor = regressao ? `${real(r.media)} ± ${real(r.desvio)}` : `${fmt(r.media)} ± ${fmt(r.desvio)}`;
+    html += `<tr class="${algoritmo === m.modelo ? "escolhido" : ""}"><td>${algoritmo}</td><td>${valor}</td></tr>`;
+  }
+  const t = m.teste;
+  const teste = regressao
+    ? { MAE: real(t.mae), RMSE: real(t.rmse), "R²": fmt(t.r2) }
+    : { Acurácia: pct(t.acuracia), Precisão: pct(t.precisao), Recall: pct(t.recall), F1: fmt(t.f1), "ROC AUC": fmt(t.roc_auc) };
+  html += `</table><p class="suave">Conjunto de teste — modelo escolhido: <b>${m.modelo}</b></p><table>`;
+  for (const [nome, valor] of Object.entries(teste)) html += `<tr><td>${nome}</td><td>${valor}</td></tr>`;
+  if (t.matriz_confusao) {
+    const [[vn, fp], [fn, vp]] = t.matriz_confusao;
+    html += `<tr><td>Matriz de confusão (VN, FP, FN, VP)</td><td>${vn}, ${fp}, ${fn}, ${vp}</td></tr>`;
+  }
+  document.getElementById("metricas").innerHTML = html + "</table>";
+}
+
+iniciar();
+</script>
+</body>
+</html>

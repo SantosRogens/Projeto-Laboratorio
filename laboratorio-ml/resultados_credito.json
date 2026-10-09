@@ -1,0 +1,253 @@
+{
+  "n": 6000,
+  "prop_inadimplentes": 0.21033333333333334,
+  "ausentes": {
+    "renda_mensal": 231,
+    "tempo_emprego_anos": 183
+  },
+  "ausentes_pct": {
+    "renda_mensal": 0.0385,
+    "tempo_emprego_anos": 0.0305
+  },
+  "taxa_score": {
+    "(299, 500]": 0.4781906300484653,
+    "(500, 600]": 0.3080444735120994,
+    "(600, 700]": 0.168179646440516,
+    "(700, 800]": 0.10196374622356495,
+    "(800, 1000]": 0.01839080459770115
+  },
+  "taxa_finalidade": {
+    "negocio": 0.27682403433476394,
+    "reforma": 0.2044392523364486,
+    "pessoal": 0.2017584451642758,
+    "veiculo": 0.192435301924353,
+    "educacao": 0.18933823529411764
+  },
+  "taxa_imovel": {
+    "nao": 0.2250351617440225,
+    "sim": 0.18895705521472392
+  },
+  "correlacao": {
+    "score_credito": -0.31816768432165454,
+    "tempo_emprego_anos": -0.09283735227648521,
+    "idade": -0.07783306411685707,
+    "prazo_meses": -0.07533041390918366,
+    "renda_mensal": 0.01584544598050886,
+    "valor_emprestimo": 0.06553975533896299,
+    "dividas_ativas": 0.1759331890860006
+  },
+  "tamanhos": {
+    "treino": 4800,
+    "teste": 1200,
+    "inad_treino": 0.21041666666666667,
+    "inad_teste": 0.21
+  },
+  "cv": {
+    "Regressão Logística": {
+      "media": 0.7780715274693696,
+      "desvio": 0.02243534391412703
+    },
+    "Árvore de Decisão": {
+      "media": 0.7126231092766269,
+      "desvio": 0.02158027517978371
+    },
+    "Random Forest": {
+      "media": 0.7612751116800334,
+      "desvio": 0.023509905864599206
+    },
+    "Gradient Boosting": {
+      "media": 0.75472060398652,
+      "desvio": 0.021700747219035248
+    }
+  },
+  "melhor": "Regressão Logística",
+  "teste": {
+    "acuracia": 0.8058333333333333,
+    "precisao": 0.5887850467289719,
+    "recall": 0.25,
+    "f1": 0.35097493036211697,
+    "roc_auc": 0.7624907909718036,
+    "matriz": [
+      [
+        904,
+        44
+      ],
+      [
+        189,
+        63
+      ]
+    ]
+  },
+  "limiar_otimo": 0.19,
+  "tabela_limiares": [
+    {
+      "limiar": 0.1,
+      "precisao": 0.28709476309226933,
+      "recall": 0.9118811881188119,
+      "recusados": 3208,
+      "fn": 89,
+      "fp": 2287,
+      "custo": 4142500
+    },
+    {
+      "limiar": 0.15,
+      "precisao": 0.3333333333333333,
+      "recall": 0.8217821782178217,
+      "recusados": 2490,
+      "fn": 180,
+      "fp": 1660,
+      "custo": 3930000
+    },
+    {
+      "limiar": 0.19,
+      "precisao": 0.37783251231527093,
+      "recall": 0.7594059405940594,
+      "recusados": 2030,
+      "fn": 243,
+      "fp": 1263,
+      "custo": 3838500
+    },
+    {
+      "limiar": 0.3,
+      "precisao": 0.4723404255319149,
+      "recall": 0.5495049504950495,
+      "recusados": 1175,
+      "fn": 455,
+      "fp": 620,
+      "custo": 4570000
+    },
+    {
+      "limiar": 0.5,
+      "precisao": 0.6090225563909775,
+      "recall": 0.24059405940594059,
+      "recusados": 399,
+      "fn": 767,
+      "fp": 156,
+      "custo": 6370000
+    }
+  ],
+  "tabela_limiares_teste": [
+    {
+      "limiar": 0.1,
+      "precisao": 0.28266331658291455,
+      "recall": 0.8928571428571429,
+      "recusados": 796,
+      "fn": 27,
+      "fp": 571,
+      "custo": 1072500
+    },
+    {
+      "limiar": 0.15,
+      "precisao": 0.3189792663476874,
+      "recall": 0.7936507936507936,
+      "recusados": 627,
+      "fn": 52,
+      "fp": 427,
+      "custo": 1056500
+    },
+    {
+      "limiar": 0.19,
+      "precisao": 0.348747591522158,
+      "recall": 0.7182539682539683,
+      "recusados": 519,
+      "fn": 71,
+      "fp": 338,
+      "custo": 1075000
+    },
+    {
+      "limiar": 0.3,
+      "precisao": 0.45993031358885017,
+      "recall": 0.5238095238095238,
+      "recusados": 287,
+      "fn": 120,
+      "fp": 155,
+      "custo": 1192500
+    },
+    {
+      "limiar": 0.5,
+      "precisao": 0.5887850467289719,
+      "recall": 0.25,
+      "recusados": 107,
+      "fn": 189,
+      "fp": 44,
+      "custo": 1578000
+    }
+  ],
+  "limiar_escolhido_treino": {
+    "limiar": 0.19,
+    "precisao": 0.37783251231527093,
+    "recall": 0.7594059405940594,
+    "recusados": 2030,
+    "fn": 243,
+    "fp": 1263,
+    "custo": 3838500
+  },
+  "limiar_escolhido_teste": {
+    "limiar": 0.19,
+    "precisao": 0.348747591522158,
+    "recall": 0.7182539682539683,
+    "recusados": 519,
+    "fn": 71,
+    "fp": 338,
+    "custo": 1075000
+  },
+  "baselines_teste": {
+    "aprovar_todos": 2016000,
+    "recusar_todos": 1422000
+  },
+  "baselines_treino": {
+    "aprovar_todos": 8080000,
+    "recusar_todos": 5685000
+  },
+  "bonus_comprometimento": {
+    "base": [
+      0.7780715274693696,
+      0.02243534391412703
+    ],
+    "com_feature": [
+      0.777920008359675,
+      0.02285101966849426
+    ],
+    "teste_base": 0.7624907909718036,
+    "teste_com_feature": 0.7707286852856472
+  },
+  "bonus_grid": {
+    "melhor": {
+      "modelo__C": 0.1
+    },
+    "cv_auc": 0.7779435199456621,
+    "teste_auc": 0.7714695934632645
+  },
+  "bonus_class_weight": {
+    "sem": {
+      "precisao": 0.5982142857142857,
+      "recall": 0.26587301587301587,
+      "f1": 0.36813186813186816,
+      "auc": 0.7707286852856472,
+      "custo": 1547500
+    },
+    "balanced": {
+      "precisao": 0.3802197802197802,
+      "recall": 0.6865079365079365,
+      "f1": 0.4893917963224894,
+      "auc": 0.7705277610340902,
+      "custo": 1055000
+    }
+  },
+  "coeficientes": {
+    "numericas__score_credito": -0.9358716673835354,
+    "numericas__tempo_emprego_anos": -0.2865908099517803,
+    "numericas__idade": -0.25972915906920163,
+    "numericas__prazo_meses": -0.248758684307949,
+    "numericas__renda_mensal": -0.2350987363762946,
+    "categoricas__finalidade_educacao": -0.18047488529429087,
+    "categoricas__finalidade_pessoal": -0.16152538111357362,
+    "categoricas__finalidade_veiculo": -0.14337157806730538,
+    "categoricas__possui_imovel_sim": -0.12963319319817496,
+    "categoricas__finalidade_reforma": -0.06775406346122728,
+    "categoricas__possui_imovel_nao": 0.12190201732045422,
+    "numericas__valor_emprestimo": 0.3300253111879792,
+    "numericas__dividas_ativas": 0.46754601322813627,
+    "categoricas__finalidade_negocio": 0.5453947320587114
+  }
+}

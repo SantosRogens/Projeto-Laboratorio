@@ -1,0 +1,110 @@
+{
+  "churn": {
+    "modelo": "Regressão Logística",
+    "metrica": "ROC AUC",
+    "validacao_cruzada": {
+      "Regressão Logística": {
+        "media": 0.7968023421871561,
+        "desvio": 0.016112899656868192
+      },
+      "Árvore de Decisão": {
+        "media": 0.7430295965331057,
+        "desvio": 0.015879856638360893
+      },
+      "Random Forest": {
+        "media": 0.7773026713089813,
+        "desvio": 0.014169123608772607
+      },
+      "Gradient Boosting": {
+        "media": 0.7704708323529581,
+        "desvio": 0.014601572545574018
+      }
+    },
+    "teste": {
+      "acuracia": 0.759,
+      "precisao": 0.627906976744186,
+      "recall": 0.4560810810810811,
+      "f1": 0.5283757338551859,
+      "roc_auc": 0.7890289081695332,
+      "matriz_confusao": [
+        [
+          624,
+          80
+        ],
+        [
+          161,
+          135
+        ]
+      ]
+    },
+    "sklearn": "1.8.0"
+  },
+  "imoveis": {
+    "modelo": "Gradient Boosting",
+    "metrica": "RMSE",
+    "validacao_cruzada": {
+      "Regressão Linear": {
+        "media": 205813.73227688103,
+        "desvio": 25739.90445012338
+      },
+      "Árvore de Decisão": {
+        "media": 172662.0932357973,
+        "desvio": 7588.3043321987225
+      },
+      "Random Forest": {
+        "media": 137646.27786973063,
+        "desvio": 12254.703500359297
+      },
+      "Gradient Boosting": {
+        "media": 134315.33030706033,
+        "desvio": 16551.434935882375
+      }
+    },
+    "teste": {
+      "mae": 70434.64043715555,
+      "rmse": 115931.37575168141,
+      "r2": 0.9424858087319354
+    },
+    "sklearn": "1.8.0"
+  },
+  "credito": {
+    "modelo": "Regressão Logística",
+    "metrica": "ROC AUC",
+    "validacao_cruzada": {
+      "Regressão Logística": {
+        "media": 0.7780715274693696,
+        "desvio": 0.02243534391412703
+      },
+      "Árvore de Decisão": {
+        "media": 0.7126231092766269,
+        "desvio": 0.02158027517978371
+      },
+      "Random Forest": {
+        "media": 0.7612751116800334,
+        "desvio": 0.023509905864599206
+      },
+      "Gradient Boosting": {
+        "media": 0.75472060398652,
+        "desvio": 0.021700747219035248
+      }
+    },
+    "teste": {
+      "acuracia": 0.8058333333333333,
+      "precisao": 0.5887850467289719,
+      "recall": 0.25,
+      "f1": 0.35097493036211697,
+      "roc_auc": 0.7624907909718036,
+      "matriz_confusao": [
+        [
+          904,
+          44
+        ],
+        [
+          189,
+          63
+        ]
+      ]
+    },
+    "sklearn": "1.8.0"
+  }
+}
