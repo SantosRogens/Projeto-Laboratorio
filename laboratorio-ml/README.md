@@ -13,8 +13,7 @@
 | 4 | Calebe França |
 
 ---
-
-## 1. Visão geral
+Visão geral
 
 Uma fintech quer estimar a **probabilidade de inadimplência** de pedidos de empréstimo para apoiar a equipe de crédito. Construímos um sistema completo de aprendizado supervisionado: exploração dos dados, pipeline sem vazamento, comparação de algoritmos por validação cruzada, avaliação orientada a custo de negócio, API Flask e interface web.
 
@@ -41,7 +40,7 @@ laboratorio-ml/
 └── resultados_credito.json
 ```
 
-## 3. Como executar
+Como executar
 
 Requer Python 3.11 ou superior.
 
@@ -64,7 +63,7 @@ curl -X POST http://localhost:5000/api/prever/credito -H "Content-Type: applicat
   -d '{"idade":28,"renda_mensal":1800,"tempo_emprego_anos":0.5,"score_credito":380,"dividas_ativas":5,"possui_imovel":"nao","finalidade":"negocio","valor_emprestimo":30000,"prazo_meses":12}'
 ```
 
-## 4. Dados
+Dados
 
 `data/credito.csv`: 6.000 contratos, 21,0% inadimplentes (alvo `inadimplente`: 1 = não pagou).
 
@@ -79,7 +78,7 @@ curl -X POST http://localhost:5000/api/prever/credito -H "Content-Type: applicat
 | `valor_emprestimo`, `prazo_meses` | Valor em R$ e prazo (12 a 60 meses) |
 | `inadimplente` | **Alvo** |
 
-## 5. Metodologia
+Metodologia
 
 - **Divisão:** 80/20, estratificada, `random_state=42` (4.800 treino / 1.200 teste).
 - **Pipeline sem vazamento:** `ColumnTransformer` com imputação por mediana + `StandardScaler` nas numéricas e imputação pela moda + `OneHotEncoder(handle_unknown="ignore")` nas categóricas, encadeado ao algoritmo. As transformações são aprendidas só com o treino de cada fold.
@@ -87,7 +86,7 @@ curl -X POST http://localhost:5000/api/prever/credito -H "Content-Type: applicat
 - **Teste:** usado uma única vez, com o modelo já escolhido.
 - **Limiar:** escolhido com probabilidades de `cross_val_predict` no treino, minimizando o custo (R$ 8.000 por inadimplente aprovado + R$ 1.500 por bom cliente recusado).
 
-## 6. Resultados
+Resultados
 
 **Validação cruzada (ROC AUC, média ± desvio)**
 
@@ -123,20 +122,15 @@ Risco baixo (0,4%):
 ![ROC e matriz de confusão](figuras/avaliacao_roc_confusao.png)
 ![Custo x limiar](figuras/limiar_custo.png)
 
-## 7. Integração ao sistema
+Integração ao sistema
 
 O problema `credito` foi adicionado ao dicionário `PROBLEMAS` em `config.py` (nove features, limites e opções). Como `treinar.py`, `app.py` e `index.html` leem tudo de `config.py`, a nova aba, o formulário e a validação de entrada da API funcionam sem alterações nesses arquivos.
 
-## 8. Ética e LGPD
+Ética e LGPD
 
 Modelos de crédito podem reproduzir discriminação histórica, inclusive via _proxies_ (CEP/bairro, idade). Não usamos gênero, raça/cor, religião, orientação sexual, estado civil, nome, dados de saúde nem CEP/bairro; a idade, presente no dataset, deveria ser auditada antes de produção. Adotamos um modelo interpretável (regressão logística), e a decisão final deve ter humano no circuito. Pela LGPD, o tratamento exige finalidade e base legal (art. 7º, X: proteção do crédito), minimização de dados (art. 6º) e garante ao titular a revisão de decisões automatizadas (art. 20). Detalhes no relatório.
 
-## 9. Divisão de tarefas
 
-| Integrante | Contribuição |
-|---|---|
-| _preencher_ | _preencher_ |
-
-## 10. Referências
+Referências
 
 Material da Aula IAML 05 (Prática 2), Prof. Hercules Ramos; documentação do scikit-learn; Lei nº 13.709/2018 (LGPD).
