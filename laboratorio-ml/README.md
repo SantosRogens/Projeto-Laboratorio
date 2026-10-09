@@ -5,14 +5,12 @@
 
 ## Integrantes do grupo
 
-| # | Nome completo | RA |
-|---|---------------|----|
-| 1 | _preencher_ | _preencher_ |
-| 2 | _preencher_ | _preencher_ |
-| 3 | _preencher_ | _preencher_ |
-| 4 | _preencher_ | _preencher_ |
-| 5 | _(opcional)_ | |
-| 6 | _(opcional)_ | |
+| # | Nome completo |
+|---|---------------|
+| 1 | Rogens Brasileiro Alcantara dos Santos|
+| 2 | Arthur weber|
+| 3 | Matheus Correa |
+| 4 | Calebe França |
 
 ---
 
